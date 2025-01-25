@@ -1,17 +1,41 @@
-cmake_minimum_required(VERSION 3.28)
-project(CMakeSFMLProject LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.0)
+project(SFMLProject)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# Specify C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON) 
 
-include(FetchContent)
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.0
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM)
-FetchContent_MakeAvailable(SFML)
+# Set SFML directory
+set(SFML_DIR "C:/SFML-2.5.1-mingw32/lib/cmake/SFML")
 
-add_executable(main src/main.cpp)
-target_compile_features(main PRIVATE cxx_std_17)
-target_link_libraries(main PRIVATE SFML::Graphics)
+# Find SFML package
+find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system)
+
+# Add executable
+add_executable(SFMLProject src/main.cpp)
+
+# Link SFML libraries
+target_link_libraries(SFMLProject sfml-graphics sfml-window sfml-system)
+
+# Path to SFML bin folder containing DLLs
+set(SFML_DLL_PATH "C:/SFML-2.5.1-mingw32/bin")
+
+# Target where the executable is generated (this assumes your target is called 'SFMLProject')
+set(TARGET_NAME "SFMLProject")
+
+# Define the list of SFML DLL files to copy
+set(SFML_DLL_FILES
+    "${SFML_DLL_PATH}/sfml-graphics-2.dll"
+    "${SFML_DLL_PATH}/sfml-window-2.dll"
+    "${SFML_DLL_PATH}/sfml-system-2.dll"
+    "${SFML_DLL_PATH}/sfml-graphics-d-2.dll"
+    "${SFML_DLL_PATH}/sfml-window-d-2.dll"
+    "${SFML_DLL_PATH}/sfml-system-d-2.dll"
+)
+
+# Add custom command to copy DLLs after the build
+add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${SFML_DLL_FILES} $<TARGET_FILE_DIR:${TARGET_NAME}>
+    COMMENT "Copying SFML DLLs to output directory"
+)
