@@ -1,5 +1,6 @@
 uniform float time;
 uniform vec2 resolution;
+uniform float scale;
 
 float getNext1D(float t){
     float r = (cos(sin(t / 123.0) * t * 1020.0) + 1.0) / 2.0;
@@ -8,13 +9,17 @@ float getNext1D(float t){
 }
 
 float getNext2D(vec2 pos){
-    float scale = 100;
-    return fract(sin(dot(pos, vec2(9.7139, 200.3237)) * cos(pos.x)) * 12345.54321);
+    return fract(cos(dot(pos, vec2(12.7139, 80.3237))) * 323405.84714);
+}
+
+vec2 pixelateUV(vec2 uv, float scale){
+    return uv;
 }
 
 void main()
 {
-    vec2 uv = gl_FragCoord.xy / resolution.xy;
-    float val = getNext2D(uv);
+    vec2 uv = (gl_FragCoord.xy / resolution.xy);
+    vec2 ipos = floor(uv * scale);
+    float val = getNext2D(ipos); // + vec2(time / 1000.0, 0)
     gl_FragColor = vec4(val, val, val, 1.0);
 }

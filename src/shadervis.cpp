@@ -22,6 +22,7 @@ int main()
     if (!shader.loadFromFile("fragment.frag", sf::Shader::Fragment)) {
         return -1; // Failed to load shader
     }
+    shader.setUniform("scale", 600.0f);
 
     // Main rendering loop
     sf::Clock clock;

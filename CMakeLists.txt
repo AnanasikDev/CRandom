@@ -12,7 +12,7 @@ set(SFML_DIR "C:/SFML-2.5.1-mingw32/lib/cmake/SFML")
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system)
 
 # Add executable
-add_executable(SFMLProject src/shadervis.cpp)
+add_executable(SFMLProject src/cvis.cpp)
 
 # Link SFML libraries
 target_link_libraries(SFMLProject sfml-graphics sfml-window sfml-system)
