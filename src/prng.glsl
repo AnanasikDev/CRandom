@@ -1,6 +1,6 @@
-uniform float time;
-uniform vec2 resolution;
-uniform float scale;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform float u_scale;
 
 float getNext1D(float t){
     float r = (cos(sin(t / 123.0) * t * 1020.0) + 1.0) / 2.0;
@@ -18,8 +18,8 @@ vec2 pixelateUV(vec2 uv, float scale){
 
 void main()
 {
-    vec2 uv = (gl_FragCoord.xy / resolution.xy);
-    vec2 ipos = floor(uv * scale);
+    vec2 uv = (gl_FragCoord.xy / u_resolution.xy);
+    vec2 ipos = floor(uv * u_scale);
     float val = getNext2D(ipos); // + vec2(time / 1000.0, 0)
     gl_FragColor = vec4(val, val, val, 1.0);
 }
