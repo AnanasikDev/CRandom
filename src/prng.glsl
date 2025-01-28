@@ -12,6 +12,10 @@ float getNext2D(vec2 pos){
     return fract(cos(dot(pos, vec2(12.7139, 80.3237))) * 323405.84714);
 }
 
+vec2 random2f( vec2 p ) {
+    return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);
+}
+
 vec2 pixelateUV(vec2 uv, float scale){
     return uv;
 }
@@ -19,7 +23,7 @@ vec2 pixelateUV(vec2 uv, float scale){
 void main()
 {
     vec2 uv = (gl_FragCoord.xy / u_resolution.xy);
-    vec2 ipos = floor(uv * u_scale);
-    float val = getNext2D(ipos); // + vec2(time / 1000.0, 0)
+    vec2 ipos = floor(uv * u_scale) / u_scale;
+    float val = random2f(ipos); // + vec2(time / 1000.0, 0)
     gl_FragColor = vec4(val, val, val, 1.0);
 }
