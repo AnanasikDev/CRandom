@@ -27,10 +27,10 @@ int main()
 
     // Load the shader
     sf::Shader shader;
-    if (!shader.loadFromFile("voronoi.glsl", sf::Shader::Fragment)) {
+    if (!shader.loadFromFile("prng.glsl", sf::Shader::Fragment)) {
         return -1; // Failed to load shader
     }
-    shader.setUniform("u_scale", 10.0f);
+    shader.setUniform("u_scale", 100.0f);
 
     // Main rendering loop
     sf::Clock clock;
